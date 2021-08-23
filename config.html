@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>树莓派后台控制</title>
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="css/m_style.css" />
+    <script src="jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class='m_body'>
+        <h2>
+            后台控制
+        </h2>
+        <div class=info>
+            <p>
+                设备id：
+                <label id='dev_id'>
+                    000
+                </label>
+            </p>
+            <p>
+                服务器地址：
+                <label id="srv_ip">
+                    0.0.0.0:0
+                </label>
+            </p>
+        </div>
+        <div>
+            <form id="form1" action="" method="POST">
+                <p>
+                    置信度阈值
+                    <input type="text" name="conf" id="conf" value="" />
+                    当前：
+                    <span id="c_conf"></span>
+                </p>
+                <p>
+                    iou阈值
+                    <input type="text" name="iou" id="iou" value="" />
+                    当前：
+                    <span id="c_iou"></span>
+                </p>
+                <p>
+                    <input type="radio" name="state" value="1" checked />
+                    启动（重启）
+                    <input type="radio" name="state" value="0" />
+                    停止
+                </p>
+                <p>
+                    <input type="radio" name="sql" value="1" />
+                    提交至本地与数据库
+                    <input type="radio" name="sql" value="0" checked />
+                    提交至本地
+                </p>
+                <p>
+                    <input type="button" value="提交" id="submit_cgi" class="m_size_b" />
+                </p>
+            </form>
+            <button id="go_video" class='m_size_b' disabled>查看视频</button>
+            <p>
+                服务状态
+                <img width="50px" id="state_img" />
+                <span id="state_msg" class="msg"></span>
+            </p>
+            <p>
+                <span id="err_msg" class="msg"></span>
+            </p>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "cgi-bin/lookup.py",
+                success: (data) => {
+                    init(data);
+                },
+                error: () => {
+                    $('#state_img').attr({ "src": "img/paryi_unknown.png" })
+                    $('#err_msg').text('设备离线');
+                    $('#submit_cgi').attr({ 'disabled': true });
+                }
+            })
+            $('#submit_cgi').click(function () {
+                rep = /^(0.\d+|0|1)$/;
+                if (!(rep.test($('#conf').val()) && rep.test($('#iou').val()))) {
+                    alert("请正确输入0到1的小数");
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "cgi-bin/config.py",
+                    data: $('#form1').serialize(),
+                    success: (data) => {
+                        refresh(data);
+                    },
+                    error: () => {
+                        $('#err_msg').text("提交失败");
+                    }
+                })
+            })
+            $('#go_video').click(function () {
+                location.href = 'video.html';
+            })
+            setInterval(function () {
+                if ($('#state_msg').text() == '启动中') {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: "json/config.json",
+                        ifModified: "true",
+                        success: (data, textStatus) => {
+                            if (textStatus == 'success') {
+                                if (data['state'] == 2) {
+                                    $('#state_img').attr({ "src": "img/paryi_on.png" })
+                                    $('#state_msg').text("");
+                                    $('#go_video').attr({ "disabled": false })
+                                }
+                            }
+                        },
+                        error: () => {
+                            $('#err_msg').text("查询状态失败");
+                        }
+                    })
+                }
+            }, 2000)
+            function init(data) {
+                $('#conf').val(data["conf"]);
+                $('#iou').val(data["iou"]);
+                $('#srv_ip').text(data['srv_ip']);
+                $('#dev_id').text(data['dev_id']);
+                refresh(data);
+            }
+            function refresh(data) {
+                $('#c_conf').text(data["conf"]);
+                $('#c_iou').text(data["iou"]);
+                switch (data["state"]) {
+                    case 0:
+                        $('#state_img').attr({ "src": "img/paryi_off.png" })
+                        $('#state_msg').text("");
+                        $('#go_video').attr({ "disabled": true })
+                        break;
+                    case 1:
+                        $('#state_img').attr({ "src": "img/paryi_off.png" })
+                        $('#state_msg').text("启动中");
+                        $('#go_video').attr({ "disabled": true })
+                        break;
+                    case 2:
+                        $('#state_img').attr({ "src": "img/paryi_on.png" })
+                        $('#state_msg').text("");
+                        $('#go_video').attr({ "disabled": false })
+                        break;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

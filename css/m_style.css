@@ -1,0 +1,40 @@
+.m_body {
+    display: block;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.no_margin{
+    margin:0 auto;
+}
+
+.scale75{
+    width:75%;
+    height:75%;
+}
+
+.text_b {
+    font-family: '微软雅黑';
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.l_size_b {
+    width: 200px;
+    height: 50px;
+}
+
+.m_size_b {
+    width: 100px;
+    height: 30px;
+}
+
+.msg {
+    color: red;
+}
+
+.info {
+    font-size: 12px;
+    line-height: 50%;
+}
+

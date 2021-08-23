@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<title>树莓派后台控制</title>
+	<link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="css/m_style.css" />
+	<script src="jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+	<div class="m_body">
+		<img src="img/raspi.jpg" width="200" />
+		<h2>
+			树莓派后台控制
+		</h2>
+		<button class="text_b l_size_b" id="next">go</button>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#next').click(function () {
+				window.location.href = "config.html";
+			})
+		})
+	</script>
+</body>
+
+</html>
