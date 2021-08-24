@@ -4,23 +4,6 @@
     margin-top: 50px;
 }
 
-.fullscreen {
-    height: 100%;
-    left: 0;
-    top: 0;
-    width: 100%;
-    position: fixed;
-    align-items: center;
-    display: block;
-    justify-content: center;
-}
-
-.fullscreen_close {
-    position: absolute;
-    right: 16px;
-    top: 16px;
-}
-
 .text_b {
     font-family: '微软雅黑';
     font-size: x-large;
@@ -45,4 +28,3 @@
     font-size: 12px;
     line-height: 50%;
 }
-

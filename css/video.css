@@ -1,0 +1,16 @@
+.fullscreen {
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    position: fixed;
+    align-items: center;
+    display: block;
+    justify-content: center;
+}
+
+.fullscreen_close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+}
