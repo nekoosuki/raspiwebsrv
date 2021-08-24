@@ -72,7 +72,8 @@
     <script>
         $(document).ready(function () {
             $.getJSON('json/dev_info.json', (data) => {
-                init(data);
+                $('#srv_ip').text(data['srv_ip']);
+                $('#dev_id').text(data['dev_id']);
             })
             $.getJSON('json/config.json', (data) => {
                 refresh(data);
@@ -116,10 +117,6 @@
                     })
                 }
             }, 2000)
-            function init(data) {
-                $('#srv_ip').text(data['srv_ip']);
-                $('#dev_id').text(data['dev_id']);
-            }
             function refresh(data) {
                 $('#c_conf').text(data["conf"]);
                 $('#c_iou').text(data["iou"]);
