@@ -17,16 +17,8 @@
     </div>
     <script>
         $(document).ready(function () {
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "cgi-bin/lookup.py",
-                success: (data) => {
-                    $('#player').attr({'video-url':'rtmp://'+data['srv_ip']+'/live/test'});
-                },
-                error: () => {
-                    alert("加载数据失败");
-                }
+            $.getJSON('json/dev_info.json', (data) => {
+                $('#player').attr({'video-url':'rtmp://'+data['srv_ip']+'/live/test'});
             })
             $('#return').click(function (){
                 window.history.back();
