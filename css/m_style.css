@@ -4,13 +4,21 @@
     margin-top: 50px;
 }
 
-.no_margin{
-    margin:0 auto;
+.fullscreen {
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    position: fixed;
+    align-items: center;
+    display: block;
+    justify-content: center;
 }
 
-.scale75{
-    width:75%;
-    height:75%;
+.fullscreen_close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
 }
 
 .text_b {

@@ -96,7 +96,11 @@
                     url: "cgi-bin/config.py",
                     data: $('#form1').serialize(),
                     success: (data) => {
-                        refresh(data);
+                        if (data['local'] == -1) {
+                            $('#err_msg').text("提交失败");
+                        } else {
+                            refresh(data);
+                        }
                     },
                     error: () => {
                         $('#err_msg').text("提交失败");
