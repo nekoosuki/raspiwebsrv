@@ -71,18 +71,11 @@
     </div>
     <script>
         $(document).ready(function () {
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "cgi-bin/lookup.py",
-                success: (data) => {
-                    init(data);
-                },
-                error: () => {
-                    $('#state_img').attr({ "src": "img/paryi_unknown.png" })
-                    $('#err_msg').text('设备离线');
-                    $('#submit_cgi').attr({ 'disabled': true });
-                }
+            $.getJSON('json/dev_info.json', (data) => {
+                init(data);
+            })
+            $.getJSON('json/config.json', (data) => {
+                refresh(data);
             })
             $('#submit_cgi').click(function () {
                 rep = /^(0.\d+|0|1)$/;
@@ -112,36 +105,26 @@
             })
             setInterval(function () {
                 if ($('#state_msg').text() == '启动中') {
-                    $.ajax({
-                        type: "GET",
-                        dataType: "json",
-                        url: "json/config.json",
-                        ifModified: "true",
-                        success: (data, textStatus) => {
-                            if (textStatus == 'success') {
-                                if (data['state'] == 2) {
-                                    $('#state_img').attr({ "src": "img/paryi_on.png" })
-                                    $('#state_msg').text("");
-                                    $('#go_video').attr({ "disabled": false })
-                                }
+                    $.getJSON('json/config.json', (data, textStatus) => {
+                        if (textStatus == 'success') {
+                            if (data['state'] == 2) {
+                                $('#state_img').attr({ "src": "img/paryi_on.png" });
+                                $('#state_msg').text("");
+                                $('#go_video').attr({ "disabled": false });
                             }
-                        },
-                        error: () => {
-                            $('#err_msg').text("查询状态失败");
                         }
                     })
                 }
             }, 2000)
             function init(data) {
-                $('#conf').val(data["conf"]);
-                $('#iou').val(data["iou"]);
                 $('#srv_ip').text(data['srv_ip']);
                 $('#dev_id').text(data['dev_id']);
-                refresh(data);
             }
             function refresh(data) {
                 $('#c_conf').text(data["conf"]);
                 $('#c_iou').text(data["iou"]);
+                $('#conf').val(data["conf"]);
+                $('#iou').val(data["iou"]);
                 switch (data["state"]) {
                     case 0:
                         $('#state_img').attr({ "src": "img/paryi_off.png" })
