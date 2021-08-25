@@ -13,15 +13,36 @@
 <body>
     <div class='fullscreen'>
         <live-player id='player' live=true></live-player><br>
-        <button id='return' class='fullscreen_close'>返回</button>
+        <div class='topbar'>
+            置信度阈值：
+            <label id='conf'></label>
+            iou阈值：
+            <label id='iou'></label>
+            <img id='return' src='img/return.png' class='fullscreen_close' style="opacity:0.1" />
+        </div>
+
     </div>
     <script>
         $(document).ready(function () {
             $.getJSON('json/dev_info.json', (data) => {
-                $('#player').attr({'video-url':'rtmp://'+data['srv_ip']+'/live/test'});
+                $('#player').attr({ 'video-url': 'rtmp://' + data['srv_ip'] + '/live/test' });
             })
-            $('#return').click(function (){
+            $.getJSON('json/config.json', (data) => {
+                $('#conf').text(data['conf']);
+                $('#iou').text(data['iou']);
+            })
+            $('#return').click(function () {
                 window.history.back();
+            })
+            $('div.topbar').mouseover(function () {
+                $('div.topbar').css('background-color', 'rgba(0, 255, 255, 0.5)')
+                $('div.topbar').css('color', 'rgba(240, 230, 140, 0.8)')
+                $('#return').css('opacity', 0.8);
+            })
+            $('div.topbar').mouseout(function () {
+                $('div.topbar').css('background-color', 'rgba(0, 255, 255, 0.1)')
+                $('div.topbar').css('color', 'rgba(240, 230, 140, 0.1)')
+                $('#return').css('opacity', 0.1);
             })
         })
     </script>

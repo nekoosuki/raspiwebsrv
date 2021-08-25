@@ -10,7 +10,18 @@
 }
 
 .fullscreen_close {
-    position: absolute;
+    position: inherit;
     right: 16px;
-    top: 16px;
+    height: 20px;
+}
+
+.topbar {
+    width: 30%;
+    height: 25px;
+    right: 0;
+    top: 0;
+    position: absolute;
+    background-color: rgba(0, 255, 255, 0.1);
+    color:rgba(240, 230, 140, 0.1);
+    vertical-align: middle;
 }
