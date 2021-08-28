@@ -9,10 +9,11 @@
     justify-content: center;
 }
 
-.fullscreen_close {
+.topbar_img {
     position: inherit;
     right: 16px;
     height: 20px;
+    opacity: 0.1;
 }
 
 .topbar {
@@ -24,4 +25,5 @@
     background-color: rgba(0, 255, 255, 0.1);
     color:rgba(240, 230, 140, 0.1);
     vertical-align: middle;
+    overflow: auto;
 }

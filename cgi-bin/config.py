@@ -18,30 +18,32 @@ if sql:
             # TODO 提交数据库
     except:
         # 提交数据库失败
-        data.update({'syn': -1})
+        syn = -1
         # 回滚
     else:
         # 提交数据库成功
-        data.update({'syn': 1})
+        syn = 1
 else:
     # 未提交数据库
-    data.update({'syn': 0})
+    syn = 0
 
 try:
     with open('json/config.json', 'w') as f:
             json.dump(data, f, indent=4)
 except:
     # 提交本地失败
-    data.update({'local': -1})
-    if data.get('syn') == 1:
+    local = -1
+    if syn == 1:
         # 回滚
         pass
 else:
     # 提交本地成功
-    data.update({'local': 1})
+    local = 1
 finally:
     #关闭游标和连接
     pass
+
+data.update({'syn':syn, 'local':local})
 
 print("Content-type: application/json\n")
 print(json.dumps(data))
