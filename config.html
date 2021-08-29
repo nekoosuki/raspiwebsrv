@@ -23,12 +23,13 @@
             </p>
             <p>
                 服务器地址：
-                <label id="srv_ip">
+                <label id="srv">
                     0.0.0.0:0
                 </label>
             </p>
         </div>
         <div>
+            <button id="syn_srv" class='m_size_b'>从服务器同步</button>
             <form id="form1" action="" method="POST">
                 <p>
                     置信度阈值
@@ -71,12 +72,43 @@
     </div>
     <script>
         $(document).ready(function () {
-            $.getJSON('json/dev_info.json', (data) => {
-                $('#srv_ip').text(data['srv_ip']);
-                $('#dev_id').text(data['dev_id']);
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "json/dev_info.json",
+                cache: false,
+                success: (data) => {
+                    $('#srv').text(data['srv_ip'] + ':' + data['srv_port']);
+                    $('#dev_id').text(data['dev_id']);
+                },
+                error: () => {
+                    $('#err_msg').text("初始化失败");
+                }
             })
-            $.getJSON('json/config.json', (data) => {
-                refresh(data);
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "json/config.json",
+                cache: false,
+                success: (data) => {
+                    refresh(data);
+                },
+                error: () => {
+                    $('#err_msg').text("初始化失败");
+                }
+            })
+            $('#syn_srv').click(function () {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "cgi-bin/syn.py",
+                    success: (data) => {
+                        refresh(data);
+                    },
+                    error: () => {
+                        $('#err_msg').text("同步失败");
+                    }
+                })
             })
             $('#submit_cgi').click(function () {
                 rep = /^(0.\d+|0|1)$/;
@@ -106,13 +138,22 @@
             })
             setInterval(function () {
                 if ($('#state_msg').text() == '启动中') {
-                    $.getJSON('json/config.json', (data, textStatus) => {
-                        if (textStatus == 'success') {
-                            if (data['state'] == 2) {
-                                $('#state_img').attr({ "src": "img/paryi_on.png" });
-                                $('#state_msg').text("");
-                                $('#go_video').attr({ "disabled": false });
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: "json/config.json",
+                        cache: false,
+                        success: (data, textStatus) => {
+                            if (textStatus == 'success') {
+                                if (data['state'] == 2) {
+                                    $('#state_img').attr({ "src": "img/paryi_on.png" });
+                                    $('#state_msg').text("");
+                                    $('#go_video').attr({ "disabled": false });
+                                }
                             }
+                        },
+                        error: () => {
+                            $('#err_msg').text("查询状态失败");
                         }
                     })
                 }

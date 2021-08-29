@@ -23,12 +23,24 @@
     </div>
     <script>
         $(document).ready(function () {
-            $.getJSON('json/dev_info.json', (data) => {
-                $('#player').attr({ 'video-url': 'rtmp://' + data['srv_ip'] + '/live/test' });
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "json/dev_info.json",
+                cache: false,
+                success: (data) => {
+                    $('#player').attr({ 'video-url': 'rtmp://' + data['srv_ip'] + '/live/test' });
+                },
             })
-            $.getJSON('json/config.json', (data) => {
-                $('#conf').text(data['conf']);
-                $('#iou').text(data['iou']);
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "json/config.json",
+                cache: false,
+                success: (data) => {
+                    $('#conf').text(data['conf']);
+                    $('#iou').text(data['iou']);
+                },
             })
             $('#return').click(function () {
                 window.history.back();
