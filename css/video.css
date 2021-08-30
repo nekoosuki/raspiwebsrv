@@ -10,9 +10,7 @@
 }
 
 .topbar_img {
-    position: fixed;
-    right: 16px;
-    height: 20px;
+    width:20px;
     opacity: 0.5;
 }
 
@@ -28,6 +26,23 @@
 }
 
 .topbar:hover{
-    background-color:rgba(0, 255, 255, 0.5);
+    background-color: rgba(0, 255, 255, 0.5);
     color: rgba(240, 230, 140, 0.8);
+}
+
+.corner{
+    margin: 10px;
+    padding: 0;
+    right: 0;
+    top:0;
+    width: auto;
+    height: auto;
+    position: fixed;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: background-color 1s;
+}
+
+.corner:hover{
+    background-color: white;
 }
