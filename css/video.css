@@ -10,18 +10,16 @@
 }
 
 .topbar_img {
-    position: inherit;
+    position: fixed;
     right: 16px;
     height: 20px;
     opacity: 0.5;
 }
 
 .topbar {
-    width: 30%;
+    width: auto;
     height: 25px;
-    right: 0;
-    top: 0;
-    position: absolute;
+    position: fixed;
     background-color: rgba(0, 255, 255, 0.1);
     color:rgba(240, 230, 140, 0.1);
     vertical-align: middle;
