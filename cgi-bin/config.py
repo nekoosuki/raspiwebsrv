@@ -17,9 +17,10 @@ if sql:
             j = json.load(f)
             ip = j['srv_ip']
             port = j['srv_port']
+            id = j['dev_id']
         conn = pymysql.Connect(host=ip,port=port,user='root',passwd='yang2000yuzhe',db='raspi')
         cur = conn.cursor()
-        cur.execute(f'update config set conf={conf}, iou={iou} where dev_id="001";')
+        cur.execute(f'update config set conf={conf}, iou={iou} where dev_id="{id}";')
     except:
         # 提交数据库失败
         conn.rollback()
