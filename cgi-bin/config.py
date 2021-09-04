@@ -23,13 +23,10 @@ if sql:
         cur.execute(f'update config set conf={conf}, iou={iou} where dev_id="{id}";')
     except:
         # 提交数据库失败
-        conn.rollback()
         syn = -1
     else:
         # 提交数据库成功
         syn = 1
-    finally:
-        cur.close()
 else:
     # 未提交数据库
     syn = 0
@@ -49,7 +46,8 @@ else:
     local = 1
 finally:
     #关闭游标和连接
-    if syn != 0:
+    if syn == 1:
+        cur.close()
         conn.commit()
         conn.close()
 
