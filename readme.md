@@ -1,4 +1,7 @@
+![image](https://img.shields.io/badge/Python-v3.7.9-blue) ![image](https://img.shields.io/badge/-html5-orange)
+
 # 树莓派轻量web服务器项目-python后端
+
 ##  版本
 - v2.1 修复bug 完成文件上传接口  
 
